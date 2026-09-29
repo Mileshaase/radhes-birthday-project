@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://1u0ukhviuaja"]
+
+[ext_resource type="Script" uid="uid://cnerhku80gmj8" path="res://Scripts/drawing.gd" id="1_52fb6"]
+[ext_resource type="Script" uid="uid://dc8h1dmhghok7" path="res://Scripts/UIScript.gd" id="2_6l7je"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_52fb6"]
+properties/0/path = NodePath("Line2D:points")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="MainScene" type="Node2D" unique_id=1454960301]
+script = ExtResource("1_52fb6")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=1724090389]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=567926957]
+replication_config = SubResource("SceneReplicationConfig_52fb6")
+
+[node name="UI" type="Control" parent="." unique_id=1679899559]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_6l7je")
+
+[node name="NetworkUI" type="Control" parent="UI" unique_id=460292415]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Client" type="Button" parent="UI/NetworkUI" unique_id=196380340]
+layout_mode = 0
+offset_right = 164.0
+offset_bottom = 77.0
+text = "Client
+"
+
+[node name="Host" type="Button" parent="UI/NetworkUI" unique_id=323764727]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 164.0
+offset_bottom = 157.0
+text = "Host"
+
+[node name="PainterUI" type="Control" parent="UI" unique_id=1039072062]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorPickerOpenAndClose" type="Button" parent="UI/PainterUI" unique_id=461682451]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Color Picker"
+
+[node name="ColorPicker" type="ColorPicker" parent="UI/PainterUI/ColorPickerOpenAndClose" unique_id=463363379]
+visible = false
+layout_mode = 0
+offset_left = 853.0
+offset_top = 2.0
+offset_right = 1151.0
+offset_bottom = 609.0
+color = Color(1, 0.7529412, 0.79607844, 1)
+
+[node name="SizeOpenAndClose" type="Button" parent="UI/PainterUI" unique_id=952173752]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 101.0
+offset_bottom = 71.0
+text = "Size
+"
+
+[node name="Size" type="VSlider" parent="UI/PainterUI/SizeOpenAndClose" unique_id=89335949]
+visible = false
+layout_mode = 0
+offset_left = 4.0
+offset_top = 38.0
+offset_right = 20.0
+offset_bottom = 201.0
+min_value = 4.0
+max_value = 40.0
+value = 18.0
+
+[node name="Clear" type="Button" parent="UI/PainterUI" unique_id=1421494319]
+layout_mode = 0
+offset_top = 81.0
+offset_right = 101.0
+offset_bottom = 112.0
+text = "Clear"
+
+[node name="Undo" type="Button" parent="UI/PainterUI" unique_id=68737841]
+layout_mode = 0
+offset_top = 122.0
+offset_right = 101.0
+offset_bottom = 153.0
+text = "Undo
+"
+
+[connection signal="pressed" from="UI/NetworkUI/Client" to="UI" method="_on_client_pressed"]
+[connection signal="pressed" from="UI/NetworkUI/Host" to="UI" method="_on_host_pressed"]
+[connection signal="pressed" from="UI/PainterUI/ColorPickerOpenAndClose" to="UI" method="_on_color_picker_open_and_close_pressed"]
+[connection signal="color_changed" from="UI/PainterUI/ColorPickerOpenAndClose/ColorPicker" to="." method="_on_color_picker_color_changed"]
+[connection signal="pressed" from="UI/PainterUI/SizeOpenAndClose" to="UI" method="_on_size_open_and_close_pressed"]
+[connection signal="value_changed" from="UI/PainterUI/SizeOpenAndClose/Size" to="." method="_on_size_value_changed"]
+[connection signal="pressed" from="UI/PainterUI/Clear" to="." method="_on_clear_pressed"]
+[connection signal="pressed" from="UI/PainterUI/Undo" to="." method="_on_undo_pressed"]
