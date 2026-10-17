@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://ck6xhystqqayf"]
+
+[ext_resource type="Texture2D" uid="uid://cxsx1o2mmxhvo" path="res://Icons/Heart.png" id="1_pt211"]
+
+[node name="Heart" type="Node2D" unique_id=966573787]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=94935889]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_pt211")

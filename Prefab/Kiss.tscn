@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://be1qlageff3a0"]
+
+[ext_resource type="Texture2D" uid="uid://dwc46uq1oyhm1" path="res://Icons/Kiss.png" id="1_spps7"]
+
+[node name="Kiss" type="Node2D" unique_id=208946669]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=697588356]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_spps7")
