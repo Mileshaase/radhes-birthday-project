@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://g4m35ps5txfm"]
+[gd_scene format=3 uid="uid://g4m35ps5txfm"]
 
 [ext_resource type="Script" uid="uid://ccdvyocb41wl5" path="res://addons/xogot_connect/device_panel.gd" id="1_device"]
 

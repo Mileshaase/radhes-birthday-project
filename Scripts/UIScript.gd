@@ -1,5 +1,6 @@
 extends Control
 
+var menuOpen = false
 
 func _on_client_pressed() -> void:
 	NetworkHandler.startClient()
@@ -15,15 +16,25 @@ func CloseNetworkUI() -> void:
 
 func OpenPainterUI() -> void:
 	$PainterUI.show()
-	
-func _on_color_picker_open_and_close_pressed() -> void:
-	if $PainterUI/ColorPickerOpenAndClose/ColorPicker.is_visible_in_tree():
-		$PainterUI/ColorPickerOpenAndClose/ColorPicker.hide()
+
+func _on_menu_button_pressed() -> void:
+	if menuOpen:
+		for button in $PainterUI/MenuButton.get_children():
+			button.hide()
+			menuOpen = false
 	else:
-		$PainterUI/ColorPickerOpenAndClose/ColorPicker.show()
+		for button in $PainterUI/MenuButton.get_children():
+			button.show()
+			menuOpen = true
+
+func _on_color_picker_open_and_close_pressed() -> void:
+	if $PainterUI/MenuButton/ColorPickerOpenAndClose/ColorRect.is_visible_in_tree():
+		$PainterUI/MenuButton/ColorPickerOpenAndClose/ColorRect.hide()
+	else:
+		$PainterUI/MenuButton/ColorPickerOpenAndClose/ColorRect.show()
 
 func _on_size_open_and_close_pressed() -> void:
-	if $PainterUI/SizeOpenAndClose/Size.is_visible_in_tree():
-		$PainterUI/SizeOpenAndClose/Size.hide()
+	if $PainterUI/MenuButton/SizeOpenAndClose/Size.is_visible_in_tree():
+		$PainterUI/MenuButton/SizeOpenAndClose/Size.hide()
 	else:
-		$PainterUI/SizeOpenAndClose/Size.show()
+		$PainterUI/MenuButton/SizeOpenAndClose/Size.show()

@@ -8,11 +8,13 @@ var lineName: String = ""
 @export var lineColor: = Color.PINK
 @export var lineWidth: = 5
 
+var listOfLines : Array
+
 func _ready() -> void:
 	NetworkHandler.drawing = self
 
 func _input(event: InputEvent) -> void:
-	if $UI/PainterUI/ColorPickerOpenAndClose/ColorPicker.is_visible_in_tree() or $UI/PainterUI/SizeOpenAndClose/Size.is_visible_in_tree():
+	if $UI/PainterUI/MenuButton/ColorPickerOpenAndClose/ColorRect/ColorPicker.is_visible_in_tree() or $UI/PainterUI/MenuButton/SizeOpenAndClose/Size.is_visible_in_tree():
 		return
 
 	if event is InputEventMouseButton:
@@ -20,7 +22,7 @@ func _input(event: InputEvent) -> void:
 			Pressed = event.pressed
 			
 			if Pressed:
-				var newName = "Line_" + str(multiplayer.get_unique_id()) + "_" + str(Time.get_ticks_msec())
+				var newName = "Line_" + str(Time.get_ticks_msec())
 				drawStroke.rpc(event.position, newName)
 				
 	elif event is InputEventMouseMotion and Pressed:
@@ -37,6 +39,8 @@ func drawStroke(pos, linename) -> void:
 
 	lines.add_child(newLine)
 	newLine.add_point(pos)
+	if newLine not in listOfLines:
+		listOfLines.append(newLine)
 
 @rpc("any_peer", "call_local", "reliable")
 func addStrokePoint(pos, linename) -> void:
@@ -60,6 +64,8 @@ func updateNewPlayerLines(linesData: Array) -> void:
 		newLine.points = line["points"]
 			
 		lines.add_child(newLine)
+		if newLine not in listOfLines:
+			listOfLines.append(newLine)
 
 @rpc("any_peer", "call_local", "reliable")
 func changeColor(color) -> void:
@@ -85,10 +91,13 @@ func _on_clear_pressed() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func undoLastLine() -> void:
-	var linesList = lines.get_children()
-	if linesList.size() > 0:
-		var lastLine = linesList[-1]
-		lastLine.queue_free()
+	if listOfLines.size() > 0:
+		for line in listOfLines:
+			print(line.name + "\n")
+		print("\n")
+		print(listOfLines[listOfLines.size() - 1])
+		listOfLines[listOfLines.size() - 1].queue_free()
+		listOfLines.pop_back()
 
 func _on_undo_pressed() -> void:
 	undoLastLine.rpc()
