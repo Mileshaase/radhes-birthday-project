@@ -14,7 +14,7 @@ func _ready() -> void:
 	NetworkHandler.drawing = self
 
 func _input(event: InputEvent) -> void:
-	if $UI/PainterUI/MenuButton/ColorPickerOpenAndClose/ColorRect/ColorPicker.is_visible_in_tree() or $UI/PainterUI/MenuButton/SizeOpenAndClose/Size.is_visible_in_tree():
+	if $UI/PainterUI/MenuButton/ColorPickerOpenAndClose/ColorRect.is_visible_in_tree() or $UI/PainterUI/MenuButton/SizeOpenAndClose/Size.is_visible_in_tree():
 		return
 
 	if event is InputEventMouseButton:
