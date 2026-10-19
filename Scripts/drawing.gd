@@ -14,13 +14,11 @@ var BrushType = "Line"
 var ReactMode = false
 var currentReaction : PackedScene = load("res://Prefab/Heart.tscn")
 
-var reactionTimer =  Timer.new()
-
 func _ready() -> void:
 	NetworkHandler.drawing = self
 
 func _input(event: InputEvent) -> void:
-	if $UI/PainterUI/MenuButton/ColorPickerOpenAndClose/ColorRect/ColorPicker.is_visible_in_tree() or $UI/PainterUI/MenuButton/SizeOpenAndClose/Size.is_visible_in_tree():
+	if $UI/PainterUI/MenuButton.get_child(0).is_visible_in_tree():
 		return
 
 	if event is InputEventMouseButton:
@@ -30,13 +28,14 @@ func _input(event: InputEvent) -> void:
 			if Pressed and BrushType == "Line":
 				var newName = "Line_" + str(Time.get_ticks_msec())
 				drawStroke.rpc(event.position, newName)
-			elif ReactMode == false:
-				DrawReaction(event.position)
-			elif ReactMode == true:
-				SpawnReaction()
-				
+			elif BrushType == "Shape" and ReactMode == false:
+				DrawReaction.rpc(event.position)
+			elif BrushType == "Shape" and ReactMode == true:
+				SpawnReaction.rpc()
+
 	elif event is InputEventMouseMotion and Pressed:
-		addStrokePoint.rpc(event.position, lineName)
+		if Pressed and BrushType == "Line":
+				addStrokePoint.rpc(event.position, lineName)
 
 @rpc("any_peer", "call_local", "reliable")
 func drawStroke(pos, linename) -> void:
@@ -77,30 +76,26 @@ func updateNewPlayerLines(linesData: Array) -> void:
 		if newLine not in listOfLines:
 			listOfLines.append(newLine)
 
-@rpc("authority", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func DrawReaction(pos) -> void:
 	var reaction = currentReaction.instantiate()
 	reaction.global_position = pos
 
-@rpc("authority", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func SpawnReaction() -> void:
 	var viewportSize = get_viewport_rect().size
-	var xPos = randf_range(viewportSize.x - viewportSize.x - viewportSize.x * 0.5 / 2, viewportSize.x - viewportSize.x - viewportSize.x * 0.5 / 2 + viewportSize.x * 0.5)
+	var xPos = randf_range(0.0, viewportSize.x)
+	var yPos = randf_range(600, 500)
 	var reaction = currentReaction.instantiate()
 	reaction.global_position = Vector2(xPos, 600)
-	reactionTimer.set_one_shot(true)
-	reactionTimer.timeout.connect(_on_timer_timeout)
-	reactionTimer.start(0.01)
-	reaction.add_child(reactionTimer)
-
-@rpc("authority", "call_local")
-func _on_timer_timeout() -> void:
-	reactionTimer.get_parent().queue_free()
+	if currentReaction.get_state().get_node_name(0) == "Heart":
+		reaction.get_node("TextureRect").modulate = lineColor
+	add_child(reaction)
 
 @rpc("any_peer", "call_local", "reliable")
 func changeColor(color) -> void:
 	lineColor = color
-	currentReaction.modulate = color
+	
 
 @rpc("any_peer", "call_local", "reliable")
 func changeWidth(width) -> void:
@@ -137,20 +132,27 @@ func _on_swap_brush_type_pressed() -> void:
 	if BrushType == "Line":
 		BrushType = "Shape"
 		$UI/PainterUI/MenuButton/SwapBrushType/ReactMode.show()
+		$UI/PainterUI/MenuButton/SwapBrushType/Reactions.show()
 	else:
 		BrushType = "Line"
+		$UI/PainterUI/MenuButton/SwapBrushType/Reactions.hide()
 
 func _on_react_mode_pressed() -> void:
 	if ReactMode == false:
 		ReactMode = true
-		$UI/PainterUI/MenuButton/SwapBrushType/Reactions.show()
 	else:
 		ReactMode = false
-		$UI/PainterUI/MenuButton/SwapBrushType/Reactions.hide()
-
 
 func _on_reaction_1_pressed() -> void:
+	SetShapeToHeart.rpc()
+
+@rpc("any_peer", "call_local", "reliable")
+func SetShapeToHeart() -> void:
+	currentReaction = load("res://Prefab/Heart.tscn")
+
+@rpc("any_peer", "call_local", "reliable")
+func SetShapeToKiss() -> void:
 	currentReaction = load("res://Prefab/Kiss.tscn")
 
 func _on_reaction_2_pressed() -> void:
-	currentReaction = load("res://Prefab/Heart.tscn")
+	SetShapeToKiss.rpc()
