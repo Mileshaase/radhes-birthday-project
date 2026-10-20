@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dwc46uq1oyhm1" path="res://Icons/Kiss.png" id="1_spps7"]
 
 [node name="Kiss" type="Node2D" unique_id=208946669]
+z_index = -1
 rotation = 0.42760566
 script = ExtResource("1_enq8v")
 type = 1

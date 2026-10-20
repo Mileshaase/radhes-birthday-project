@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cxsx1o2mmxhvo" path="res://Icons/Heart.png" id="1_pt211"]
 
 [node name="Heart" type="Node2D" unique_id=966573787]
+z_index = -1
 script = ExtResource("1_7vb62")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=94935889]
