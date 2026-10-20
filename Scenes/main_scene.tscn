@@ -29,6 +29,7 @@ base_scale = 5.0
 script = ExtResource("1_52fb6")
 
 [node name="BG" type="ColorRect" parent="." unique_id=76470080]
+z_index = -2
 offset_top = -15.0
 offset_right = 1946.0
 offset_bottom = 1099.0
