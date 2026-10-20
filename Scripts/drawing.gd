@@ -166,3 +166,10 @@ func SetShapeToKiss() -> void:
 
 func _on_reaction_2_pressed() -> void:
 	SetShapeToKiss.rpc()
+
+func _on_bg_change_pressed() -> void:
+	ChangeBGColor.rpc()
+
+@rpc("any_peer", "call_local", "reliable")
+func ChangeBGColor() -> void:
+	$BG.color = lineColor
