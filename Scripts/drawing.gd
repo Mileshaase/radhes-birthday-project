@@ -9,6 +9,7 @@ var lineName: String = ""
 @export var lineWidth: = 5
 
 var listOfLines : Array
+var listOfReactions : Array
 
 var BrushType = "Line"
 var ReactMode = false
@@ -22,6 +23,8 @@ func _input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventMouseButton:
+		if $UI/PainterUI/MenuButton.get_global_rect().has_point(event.position):
+			return
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			Pressed = event.pressed
 			
@@ -79,7 +82,13 @@ func updateNewPlayerLines(linesData: Array) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func DrawReaction(pos) -> void:
 	var reaction = currentReaction.instantiate()
+	if currentReaction.get_state().get_node_name(0) == "Heart":
+		reaction.get_node("TextureRect").modulate = lineColor
+	reaction.scale *= 0.5
 	reaction.global_position = pos
+	reaction.canExpire = false
+	add_child(reaction)
+	listOfReactions.append(reaction)
 
 @rpc("any_peer", "call_local", "reliable")
 func SpawnReaction() -> void:
@@ -87,7 +96,7 @@ func SpawnReaction() -> void:
 	var xPos = randf_range(0.0, viewportSize.x)
 	var yPos = randf_range(600, 500)
 	var reaction = currentReaction.instantiate()
-	reaction.global_position = Vector2(xPos, 600)
+	reaction.global_position = Vector2(xPos, yPos)
 	if currentReaction.get_state().get_node_name(0) == "Heart":
 		reaction.get_node("TextureRect").modulate = lineColor
 	add_child(reaction)
@@ -96,7 +105,6 @@ func SpawnReaction() -> void:
 func changeColor(color) -> void:
 	lineColor = color
 	
-
 @rpc("any_peer", "call_local", "reliable")
 func changeWidth(width) -> void:
 	lineWidth = width
@@ -111,19 +119,18 @@ func _on_size_value_changed(value: float) -> void:
 func clearBoard() -> void:
 	for line in lines.get_children():
 		line.queue_free()
+	for reaction in listOfReactions:
+		reaction.queue_free()
+	listOfReactions.clear()
 
 func _on_clear_pressed() -> void:
 	clearBoard.rpc()
 
 @rpc("any_peer", "call_local", "reliable")
 func undoLastLine() -> void:
-	if listOfLines.size() > 0:
-		for line in listOfLines:
-			print(line.name + "\n")
-		print("\n")
-		print(listOfLines[listOfLines.size() - 1])
-		listOfLines[listOfLines.size() - 1].queue_free()
-		listOfLines.pop_back()
+	if listOfReactions.size() > 0:
+		listOfReactions[listOfReactions.size() - 1].queue_free()
+		listOfReactions.pop_back()
 
 func _on_undo_pressed() -> void:
 	undoLastLine.rpc()
@@ -136,12 +143,15 @@ func _on_swap_brush_type_pressed() -> void:
 	else:
 		BrushType = "Line"
 		$UI/PainterUI/MenuButton/SwapBrushType/Reactions.hide()
+	$UI/PainterUI/MenuButton/SwapBrushType.text = BrushType
 
 func _on_react_mode_pressed() -> void:
 	if ReactMode == false:
 		ReactMode = true
+		$UI/PainterUI/MenuButton/SwapBrushType/ReactMode.text = "T"
 	else:
 		ReactMode = false
+		$UI/PainterUI/MenuButton/SwapBrushType/ReactMode.text = "F"
 
 func _on_reaction_1_pressed() -> void:
 	SetShapeToHeart.rpc()

@@ -1,10 +1,13 @@
 extends Node2D
 
 var lifetime = 0.5
+var canExpire = true
 
 @export var type = 0
 
 func _ready() -> void:
+	if !canExpire:
+		return
 	
 	if type == 0:
 		var tween = create_tween()

@@ -145,6 +145,17 @@ min_value = 4.0
 max_value = 40.0
 value = 18.0
 
+[node name="Undo" type="Button" parent="UI/PainterUI/MenuButton" unique_id=68737841]
+visible = false
+layout_mode = 0
+offset_left = 3.0
+offset_top = 472.0
+offset_right = 272.0
+offset_bottom = 617.0
+theme_override_font_sizes/font_size = 100
+text = "Undo
+"
+
 [node name="Clear" type="Button" parent="UI/PainterUI/MenuButton" unique_id=1421494319]
 visible = false
 layout_mode = 0
@@ -163,49 +174,41 @@ offset_top = 900.0
 offset_right = 703.0
 offset_bottom = 1045.0
 theme_override_font_sizes/font_size = 100
-text = "Brush"
+text = "Line"
 
 [node name="ReactMode" type="Button" parent="UI/PainterUI/MenuButton/SwapBrushType" unique_id=1728051904]
-visible = false
 layout_mode = 0
 offset_left = 433.0
 offset_right = 578.0
 offset_bottom = 145.0
 theme_override_font_sizes/font_size = 100
+text = "F"
 
 [node name="Reactions" type="Control" parent="UI/PainterUI/MenuButton/SwapBrushType" unique_id=1086380432]
 visible = false
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 120.0
+offset_bottom = 88.0
 
 [node name="Reaction1" type="Button" parent="UI/PainterUI/MenuButton/SwapBrushType/Reactions" unique_id=1126924775]
 layout_mode = 0
-offset_left = 1264.0
-offset_top = -170.0
-offset_right = 1551.0
-offset_bottom = 127.0
+offset_left = 1436.0
+offset_top = -21.0
+offset_right = 1579.5
+offset_bottom = 127.5
 theme_override_font_sizes/font_size = 100
 icon = ExtResource("3_x6ack")
+expand_icon = true
 
 [node name="Reaction2" type="Button" parent="UI/PainterUI/MenuButton/SwapBrushType/Reactions" unique_id=1599287819]
 layout_mode = 0
-offset_left = 775.0
-offset_top = -170.0
-offset_right = 1228.0
-offset_bottom = 125.0
+offset_left = 1195.0
+offset_top = -18.0
+offset_right = 1421.5
+offset_bottom = 129.5
 theme_override_font_sizes/font_size = 100
 icon = ExtResource("4_iacmt")
-
-[node name="Undo" type="Button" parent="." unique_id=68737841]
-visible = false
-offset_left = 23.0
-offset_top = 643.0
-offset_right = 292.0
-offset_bottom = 788.0
-theme_override_font_sizes/font_size = 100
-text = "Undo
-"
+expand_icon = true
 
 [connection signal="pressed" from="UI/NetworkUI/Client" to="UI" method="_on_client_pressed"]
 [connection signal="pressed" from="UI/NetworkUI/Host" to="UI" method="_on_host_pressed"]
@@ -214,9 +217,9 @@ text = "Undo
 [connection signal="color_changed" from="UI/PainterUI/MenuButton/ColorPickerOpenAndClose/ColorRect/ColorPicker" to="." method="_on_color_picker_color_changed"]
 [connection signal="pressed" from="UI/PainterUI/MenuButton/SizeOpenAndClose" to="UI" method="_on_size_open_and_close_pressed"]
 [connection signal="value_changed" from="UI/PainterUI/MenuButton/SizeOpenAndClose/Size" to="." method="_on_size_value_changed"]
+[connection signal="pressed" from="UI/PainterUI/MenuButton/Undo" to="." method="_on_undo_pressed"]
 [connection signal="pressed" from="UI/PainterUI/MenuButton/Clear" to="." method="_on_clear_pressed"]
 [connection signal="pressed" from="UI/PainterUI/MenuButton/SwapBrushType" to="." method="_on_swap_brush_type_pressed"]
 [connection signal="pressed" from="UI/PainterUI/MenuButton/SwapBrushType/ReactMode" to="." method="_on_react_mode_pressed"]
 [connection signal="pressed" from="UI/PainterUI/MenuButton/SwapBrushType/Reactions/Reaction1" to="." method="_on_reaction_1_pressed"]
 [connection signal="pressed" from="UI/PainterUI/MenuButton/SwapBrushType/Reactions/Reaction2" to="." method="_on_reaction_2_pressed"]
-[connection signal="pressed" from="Undo" to="." method="_on_undo_pressed"]
