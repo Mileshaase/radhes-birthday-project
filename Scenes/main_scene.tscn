@@ -34,7 +34,6 @@ offset_right = 1946.0
 offset_bottom = 1099.0
 size_flags_horizontal = 6
 size_flags_vertical = 6
-color = Color(1, 0, 1, 1)
 
 [node name="Line2D" type="Line2D" parent="." unique_id=1724090389]
 
@@ -49,7 +48,6 @@ offset_bottom = 40.0
 script = ExtResource("2_6l7je")
 
 [node name="NetworkUI" type="Control" parent="UI" unique_id=460292415]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -74,6 +72,7 @@ theme_override_font_sizes/font_size = 100
 text = "Host"
 
 [node name="PainterUI" type="Control" parent="UI" unique_id=1039072062]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -88,6 +87,7 @@ theme_override_font_sizes/font_size = 100
 text = "Menu"
 
 [node name="ColorPickerOpenAndClose" type="Button" parent="UI/PainterUI/MenuButton" unique_id=461682451]
+visible = false
 layout_mode = 0
 offset_left = 3.0
 offset_top = 160.0
@@ -121,6 +121,7 @@ hex_visible = false
 presets_visible = false
 
 [node name="SizeOpenAndClose" type="Button" parent="UI/PainterUI/MenuButton" unique_id=952173752]
+visible = false
 layout_mode = 0
 offset_left = 3.0
 offset_top = 316.0
@@ -152,6 +153,7 @@ max_value = 40.0
 value = 18.0
 
 [node name="Undo" type="Button" parent="UI/PainterUI/MenuButton" unique_id=68737841]
+visible = false
 layout_mode = 0
 offset_left = 3.0
 offset_top = 472.0
@@ -162,6 +164,7 @@ text = "Undo
 "
 
 [node name="Clear" type="Button" parent="UI/PainterUI/MenuButton" unique_id=1421494319]
+visible = false
 layout_mode = 0
 offset_left = 3.0
 offset_top = 900.0
@@ -171,6 +174,7 @@ theme_override_font_sizes/font_size = 100
 text = "Clear"
 
 [node name="SwapBrushType" type="Button" parent="UI/PainterUI/MenuButton" unique_id=1583970295]
+visible = false
 layout_mode = 0
 offset_left = 299.0
 offset_top = 900.0
@@ -214,6 +218,7 @@ icon = ExtResource("4_iacmt")
 expand_icon = true
 
 [node name="BGChange" type="Button" parent="UI/PainterUI/MenuButton" unique_id=67373258]
+visible = false
 layout_mode = 0
 offset_left = 1618.0
 offset_top = -2.0
